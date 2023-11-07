@@ -1,0 +1,13 @@
+ruff
+pytest
+coverage[toml]
+pytest-cov
+python-dotenv
+pytest-asyncio
+tenacity
+tiktoken
+beautifulsoup4
+lxml
+orjson
+pandas
+pydantic

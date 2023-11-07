@@ -1,0 +1,9 @@
+openai
+datasets
+ipykernel
+tenacity
+jupyter
+ipywidgets
+datasets
+evaluate
+scikit-learn
