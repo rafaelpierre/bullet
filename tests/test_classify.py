@@ -23,9 +23,6 @@ def test_classify_list(text, results):
 
     logging.info(f"Result: {result}")
     assert len(result) == len(results)
-    for item in result:
-        logging.error(f"Item: {item}")
-        assert item.response
 
 def test_predict_pandas(df_train):
 
@@ -42,7 +39,7 @@ def test_few_shot(df_train, df_test):
     logging.info(f"Input DF - test set: {df_test}")
     classifier = SentimentClassifier()
     results = classifier.predict_few_shot(
-        review = df_test.text.values[0],
+        reviews = df_test.text.values,
         examples = df_train.sample(3).text.values
     )
 

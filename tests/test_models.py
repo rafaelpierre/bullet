@@ -1,5 +1,5 @@
 from src.bullet.models.prompts.classification import ZeroShotPrompt
-from src.bullet.models.responses.classification import ClassificationResponse
+from src.bullet.models.responses.classification import PromptResponse, ClassificationResponse
 from dotenv import load_dotenv
 import pytest
 
@@ -23,7 +23,7 @@ def test_create_error():
 
 def test_response():
 
-    response = ClassificationResponse(response = "NEG")
+    response = PromptResponse(response = "NEG")
 
     assert response
     assert response.response

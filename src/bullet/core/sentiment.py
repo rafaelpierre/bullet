@@ -7,12 +7,12 @@ from pydantic import BaseModel
 from typing import List, Any
 import tenacity
 import tiktoken
-from tqdm.asyncio import tqdm
+import tqdm
 import pandas as pd
 from httpx import ReadTimeout
 
 from bullet.models.prompts.classification import ZeroShotPrompt, FewShotPrompt
-from bullet.models.responses.classification import ClassificationResponse
+from bullet.models.responses.classification import PromptResponse, ClassificationResponse
 
 
 class SentimentClassifier(BaseModel):
@@ -80,10 +80,10 @@ class SentimentClassifier(BaseModel):
             logging.info(f"OpenAI Response: {response}")
             output = response.choices[0].text
             logging.info(type(output))
-            response = ClassificationResponse(response=output)
+            response = PromptResponse(response=output)
             results.append(response)
 
-        return results
+        return ClassificationResponse(results = results)
 
     @tenacity.retry(
         retry=tenacity.retry_if_exception_type(
@@ -104,7 +104,7 @@ class SentimentClassifier(BaseModel):
         top_p: float = 0.9,
         n: int = 1,
         max_tokens=100,
-    ) -> List[ClassificationResponse]:
+    ) -> ClassificationResponse:
         logging.info(f"Input text: {text}")
         logging.info(f"Temperature: {temperature}")
         logging.info(f"top_p: {top_p}")
@@ -129,12 +129,12 @@ class SentimentClassifier(BaseModel):
 
             logging.info(f"OpenAI Response: {response}")
             output = response.choices[0].text
-            output = ClassificationResponse(response=output)
+            output = PromptResponse(response=output)
             responses.append(output)
 
         logging.info(f"Results: {responses}")
 
-        return responses
+        return ClassificationResponse(results = responses)
 
     @tenacity.retry(
         retry=tenacity.retry_if_exception_type(
@@ -178,9 +178,9 @@ class SentimentClassifier(BaseModel):
 
             logging.info(f"OpenAI Response: {response}")
             output = response.choices[0].text
-            output = ClassificationResponse(response=output)
+            output = PromptResponse(response=output)
 
             logging.info(f"Result: {output}")
             results.append(output)
 
-        return results
+        return ClassificationResponse(results = results)
