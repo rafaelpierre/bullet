@@ -2,7 +2,13 @@ from src.bullet.core.sentiment import SentimentClassifier
 from src.bullet.models.responses.classification import ClassificationResponse
 import logging
 from tests.fixtures import environment
-from tests.fixtures.reviews import text, results, df
+from tests.fixtures.reviews import (
+    text,
+    results,
+    df_train,
+    df_test
+)
+
 import logging
 import pandas as pd
 
@@ -21,18 +27,24 @@ def test_classify_list(text, results):
         logging.error(f"Item: {item}")
         assert item.response
 
-def test_predict_pandas(df):
+def test_predict_pandas(df_train):
 
-    logging.info(f"Input DF: {df}")
+    logging.info(f"Input DF: {df_train}")
     classifier = SentimentClassifier()
-    results = classifier.predict_pandas(df)
+    results = classifier.predict_pandas(df_train)
+    logging.info(f"Predict pandas - results: {results}")
 
     assert results
 
-def test_few_shot(df):
+def test_few_shot(df_train, df_test):
 
-    logging.info(f"Input DF: {df}")
+    logging.info(f"Input DF - examples: {df_train}")
+    logging.info(f"Input DF - test set: {df_test}")
     classifier = SentimentClassifier()
-    results = classifier.predict_pandas(df)
+    results = classifier.predict_few_shot(
+        review = df_test.text.values[0],
+        examples = df_train.sample(3).text.values
+    )
 
+    logging.info(f"Predict few shot - results: {results}")
     assert results

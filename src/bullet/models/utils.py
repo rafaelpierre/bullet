@@ -7,12 +7,13 @@ from openai import OpenAI
 
 VALIDATION_MODEL = "gpt-3.5-turbo-1106"
 
+
 @tenacity.retry(
     retry=tenacity.retry_if_exception_type(
-        exception_types = (
+        exception_types=(
             openai._exceptions.RateLimitError,
             openai._exceptions.APIConnectionError,
-            orjson.JSONDecodeError
+            orjson.JSONDecodeError,
         )
     ),
     wait=tenacity.wait_random(min=0.5, max=1),
@@ -23,13 +24,12 @@ def validate_prompt(
     string: str,
     error: Exception,
     target_format: str = "json",
-    stop = None,
+    stop=None,
     temperature: float = 0.0,
     n: int = 1,
-    max_tokens: int = 20
+    max_tokens: int = 20,
 ) -> str:
-
-    api = OpenAI(api_key = os.environ["OPENAI_API_KEY"])
+    api = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     placeholder = """
         You are an expert in Python.
         I'm trying to parse the following string into a {target_format}: "{string}"
@@ -40,39 +40,35 @@ def validate_prompt(
     """
 
     messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant."
-        },
+        {"role": "system", "content": "You are a helpful assistant."},
         {
             "role": "user",
             "content": placeholder.format(
-                string = string,
-                target_format = target_format,
-                error = str(error),
+                string=string,
+                target_format=target_format,
+                error=str(error),
             ),
-        }
+        },
     ]
     response = api.chat.completions.create(
-        model = VALIDATION_MODEL,
-        messages = messages,
-        temperature = temperature,
-        n = n,
-        max_tokens = max_tokens,
-        stop = stop,
-        response_format = { "type": "json_object" }
+        model=VALIDATION_MODEL,
+        messages=messages,
+        temperature=temperature,
+        n=n,
+        max_tokens=max_tokens,
+        stop=stop,
+        response_format={"type": "json_object"},
     )
 
     return response.choices[0].message.content
 
 
-
 @tenacity.retry(
     retry=tenacity.retry_if_exception_type(
-        exception_types = (
+        exception_types=(
             openai._exceptions.RateLimitError,
             openai._exceptions.APIConnectionError,
-            orjson.JSONDecodeError
+            orjson.JSONDecodeError,
         )
     ),
     wait=tenacity.wait_random(min=0.5, max=1),
@@ -83,13 +79,12 @@ def validate_response(
     string: str,
     error: Exception,
     target_format: str = "json",
-    stop = None,
+    stop=None,
     temperature: float = 0.0,
     n: int = 1,
-    max_tokens: int = 20
+    max_tokens: int = 20,
 ) -> str:
-
-    api = OpenAI(api_key = os.environ["OPENAI_API_KEY"])
+    api = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     placeholder = """
         You are an expert in Python.
         I'm trying to parse the following string into a {target_format}: "{string}"
@@ -100,31 +95,25 @@ def validate_response(
     """
 
     messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant."
-        },
+        {"role": "system", "content": "You are a helpful assistant."},
         {
             "role": "user",
             "content": placeholder.format(
-                string = string,
-                target_format = target_format,
-                error = str(error),
+                string=string,
+                target_format=target_format,
+                error=str(error),
             ),
-        }
+        },
     ]
 
     response = api.chat.completions.create(
-        model = VALIDATION_MODEL,
-        messages = messages,
-        temperature = temperature,
-        n = n,
-        max_tokens = max_tokens,
-        stop = stop,
-        response_format = { "type": "json_object" }
+        model=VALIDATION_MODEL,
+        messages=messages,
+        temperature=temperature,
+        n=n,
+        max_tokens=max_tokens,
+        stop=stop,
+        response_format={"type": "json_object"},
     )
 
     return response.choices[0].message.content
-
-
-

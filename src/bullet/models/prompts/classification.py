@@ -21,7 +21,6 @@ class ZeroShotPrompt(BaseModel):
     encoding: Any = None
 
     def __init__(self, **kwargs):
-
         super().__init__(**kwargs)
         self.encoding = tiktoken.encoding_for_model(self.embeddings_for_model)
         logging.info(self.review)
@@ -33,7 +32,8 @@ class ZeroShotPrompt(BaseModel):
 
     def __len__(self):
         return len(self.encoding.encode(str(self)))
-    
+
+
 class FewShotPrompt(BaseModel):
     prompt: str = """
         Please correctly classify each and every movie review below into negative ("NEG") or 
@@ -53,16 +53,12 @@ class FewShotPrompt(BaseModel):
     encoding: Any = None
 
     def __init__(self, **kwargs):
-
         super().__init__(**kwargs)
         self.encoding = tiktoken.encoding_for_model(self.embeddings_for_model)
         logging.info(self.review)
 
     def __str__(self):
-        output = self.prompt.format(
-            examples = self.examples,
-            review = self.review
-        )
+        output = self.prompt.format(examples=self.examples, review=self.review)
         logging.info(f"Prompt output: {output}")
         return output
 

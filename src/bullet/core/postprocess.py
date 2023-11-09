@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import ast
 import re
 
+
 def parse_json(batches: str) -> dict:
     logging.info(f"Batches to be parsed: {batches}")
 
@@ -14,10 +15,9 @@ def parse_json(batches: str) -> dict:
 
 
 def clean_string(batches: str) -> dict:
-
     logging.info(f"Batches to be parsed: {batches}")
 
-    id = re.findall(pattern="([0-9]+)", string = batches)[0]
-    label = re.findall(pattern="(NEG|POS)", string = batches)[0]
+    id = re.findall(pattern="([0-9]+)", string=batches)[0]
+    label = re.findall(pattern="(NEG|POS)", string=batches)[0]
 
     return id, label
