@@ -1,5 +1,4 @@
 import openai
-from typing import List
 import tenacity
 import orjson
 import os

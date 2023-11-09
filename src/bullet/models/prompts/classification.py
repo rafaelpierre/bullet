@@ -2,7 +2,6 @@ from pydantic import BaseModel
 import logging
 import tiktoken
 from typing import Any, List
-from bullet.models.utils import validate_prompt
 
 
 class ZeroShotPrompt(BaseModel):
