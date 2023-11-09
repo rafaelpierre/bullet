@@ -19,7 +19,7 @@ def test_classify_list(text, results):
     assert len(result) == len(results)
     for item in result:
         logging.error(f"Item: {item}")
-        assert item.label
+        assert item.response
 
 def test_predict_pandas(df):
 

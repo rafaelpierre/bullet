@@ -3,13 +3,14 @@ import bullet
 from pathlib import Path
 
 PACKAGE_REQUIREMENTS = [
-    "openai",
-    "pydantic",
+    "openai==1.1.1",
+    "pydantic==2.4.2",
+    "pydantic_core==2.10.1",
     "tqdm",
     "tenacity",
     "tiktoken",
-    "python-rapidjson",
-    "beautifulsoup4",
+    "orjson",
+    "beautifulsoup4==4.12.2",
     "lxml"
 ]
 

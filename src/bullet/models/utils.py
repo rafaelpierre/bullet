@@ -2,16 +2,22 @@ import openai
 from typing import List
 import tenacity
 import orjson
+import os
+from openai import OpenAI
 
 VALIDATION_MODEL = "gpt-3.5-turbo-1106"
 
 @tenacity.retry(
     retry=tenacity.retry_if_exception_type(
-        exception_types = (openai.error.RateLimitError)
+        exception_types = (
+            openai._exceptions.RateLimitError,
+            openai._exceptions.APIConnectionError,
+            orjson.JSONDecodeError
+        )
     ),
-    wait=tenacity.wait_random(min=1, max=2),
+    wait=tenacity.wait_random(min=0.5, max=1),
     stop=tenacity.stop_after_attempt(5),
-    reraise=True,
+    reraise=False,
 )
 def validate_prompt(
     string: str,
@@ -23,6 +29,7 @@ def validate_prompt(
     max_tokens: int = 20
 ) -> str:
 
+    api = OpenAI(api_key = os.environ["OPENAI_API_KEY"])
     placeholder = """
         You are an expert in Python.
         I'm trying to parse the following string into a {target_format}: "{string}"
@@ -46,8 +53,7 @@ def validate_prompt(
             ),
         }
     ]
-
-    response = openai.ChatCompletion.create(
+    response = api.chat.completions.create(
         model = VALIDATION_MODEL,
         messages = messages,
         temperature = temperature,
@@ -57,17 +63,21 @@ def validate_prompt(
         response_format = { "type": "json_object" }
     )
 
-    return response.choices[0]["message"]["content"]
+    return response.choices[0].message.content
 
 
 
 @tenacity.retry(
     retry=tenacity.retry_if_exception_type(
-        exception_types = (openai.error.RateLimitError)
+        exception_types = (
+            openai._exceptions.RateLimitError,
+            openai._exceptions.APIConnectionError,
+            orjson.JSONDecodeError
+        )
     ),
-    wait=tenacity.wait_random(min=1, max=2),
+    wait=tenacity.wait_random(min=0.5, max=1),
     stop=tenacity.stop_after_attempt(5),
-    reraise=True,
+    reraise=False,
 )
 def validate_response(
     string: str,
@@ -79,6 +89,7 @@ def validate_response(
     max_tokens: int = 20
 ) -> str:
 
+    api = OpenAI(api_key = os.environ["OPENAI_API_KEY"])
     placeholder = """
         You are an expert in Python.
         I'm trying to parse the following string into a {target_format}: "{string}"
@@ -103,7 +114,7 @@ def validate_response(
         }
     ]
 
-    response = openai.ChatCompletion.create(
+    response = api.chat.completions.create(
         model = VALIDATION_MODEL,
         messages = messages,
         temperature = temperature,
@@ -113,7 +124,7 @@ def validate_response(
         response_format = { "type": "json_object" }
     )
 
-    return response.choices[0]["message"]["content"]
+    return response.choices[0].message.content
 
 
 

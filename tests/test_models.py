@@ -8,31 +8,22 @@ load_dotenv()
 def test_create():
 
     prompt = ZeroShotPrompt(
-        examples = "\"id\": 1, \"text\": \"test\"}"
+        review = "This is a review"
     )
 
     assert prompt
-    assert prompt.examples
+    assert prompt.review
 
 def test_create_error():
 
     with pytest.raises(Exception):
         prompt = ZeroShotPrompt(
-            examples = ["test"]
+            review = ["test"]
         )
 
 def test_response():
 
-    response = ClassificationResponse(response = '{"id": 1, "label": "POS"}')
+    response = ClassificationResponse(response = "NEG")
 
-    assert response.id is not None
+    assert response
     assert response.response
-    assert response.label is not None
-
-def test_response_validate():
-
-    response = ClassificationResponse(response = '{"id": 1, "label": "POS"')
-
-    assert response.id is not None
-    assert response.response
-    assert response.label is not None

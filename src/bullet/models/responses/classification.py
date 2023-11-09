@@ -1,55 +1,30 @@
-from pydantic import BaseModel, ConfigDict, field_validator, model_validator
-from bullet.core.postprocess import clean_string
-from bullet.models.utils import validate_response
+from pydantic import BaseModel
+from typing import Any
+import tiktoken
 import logging
-import orjson
-import os
-import openai
-import pydantic
 
 class ClassificationResponse(BaseModel):
 
     response: str
+    embeddings_for_model: str = "gpt-3.5-turbo-instruct"
+    encoding: Any = None
 
-    @pydantic.computed_field()
-    @property
-    def response_dict(self) -> dict:
-        try:
-            logging.info(f"Response: {self.response}")
-            logging.info(f"Type: {type(self.response)}")
-            clean = (
-                self.response
-                .replace("\n", "")
-                .replace("[", "")
-                .replace("]", "")
-                .strip()
-            )
-            logging.info(f"Clean: {clean}")
-            response_dict = orjson.loads(clean)
-            return response_dict
-        
-        except orjson.JSONDecodeError as error:
-            logging.error("Error validating response")
-            logging.error("Trying to reformat response...")
-            
-            response = validate_response(
-                string = self.response,
-                error = error
-            )
-            logging.info(f"Fixed response: {response}")
-            response_dict = orjson.loads(response)
-            
-            return response_dict
-        
-    @pydantic.computed_field()
-    @property
-    def id(self) -> int:
-        return int(self.response_dict["id"])
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+        self.encoding = tiktoken.encoding_for_model(self.embeddings_for_model)
+        logging.info(self.response)
+
+    def __str__(self):
+        return self.response
     
-    @pydantic.computed_field()
-    @property
-    def label(self) -> str:
-        return self.response_dict["label"]
+    def __int__(self):
+        return int("POS" in self.response)
+    
+    def __len__(self):
+
+        return len(self.encoding.encode(str(self)))    
+
     
 
             
