@@ -27,3 +27,4 @@ def test_response():
 
     assert response
     assert response.response
+    assert response.label in (0,1)

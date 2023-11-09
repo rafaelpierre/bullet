@@ -70,9 +70,6 @@ class SentimentClassifier(BaseModel):
         temperature: float = 0.0,
         top_p: float = 0.9,
         n: int = 1,
-        batch: bool = False,
-        max_batch_size: int = 500,
-        parse_json: bool = False,
         max_tokens: int = 20
     ):
         

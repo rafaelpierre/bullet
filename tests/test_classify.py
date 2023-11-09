@@ -28,3 +28,11 @@ def test_predict_pandas(df):
     results = classifier.predict_pandas(df)
 
     assert results
+
+def test_few_shot(df):
+
+    logging.info(f"Input DF: {df}")
+    classifier = SentimentClassifier()
+    results = classifier.predict_pandas(df)
+
+    assert results
