@@ -15,7 +15,7 @@
 
 ## Getting Started
 
-1. Install `bullet`: `pip install git+https://github.com/rafaelpierre/bullet`
+1. Install `bullet`: `pip install "git+https://github.com/rafaelpierre/bullet.git#egg=bullet&subdirectory=src"`
 2. Configure your `OPENAI_API_KEY`
 3. You should be good to go
 
@@ -76,10 +76,11 @@ pip install tox
 * Running unit tests:
 
 ```bash
-<<<<<<< HEAD
-tox .
-```
-=======
 tox
 ```
->>>>>>> 741b5b9 (logo)
+
+### Documentation
+
+* From the `docs` folder, run `pip install -r requirements.txt`
+* Run `make html`
+* Documentation will be available at `docs/_build/html/index.html`

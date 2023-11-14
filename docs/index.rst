@@ -1,7 +1,8 @@
 🚅 bullet: A Zero-Shot / Few-Shot Learning, LLM Based, text classification framework
-==================
+=====================================================================================
 
-## Motivation
+Motivation
+----------
 
 * Besides the fact that LLMs have a huge power in **generative** use cases, there is a use case that is quite frequently overlooked by frameworks such as [LangChain](https://www.langchain.com/): **Text Classification**.
 * 🚅 **bullet** was created to address this. It leverages the power of **ChatGPT**, while removing any boilerplate code that is needed for performing **text classification** using either **Zero Shot** or **Few Shot Learning**.

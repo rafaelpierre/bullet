@@ -1,3 +1,10 @@
+"""
+Main module for Sentiment Classification Functionality.
+
+Contains the SentimentClassifier class, which ships with all functions to perform Zero Shot
+and Few Shot sentiment classification.
+"""
+
 import openai
 import pydantic
 from openai import OpenAI
@@ -16,14 +23,26 @@ from bullet.models.responses.classification import PromptResponse, Classificatio
 
 
 class SentimentClassifier(BaseModel):
+    """
+        SentimentClassifier contains methods for performing Zero-Shot and Few-Shot classification.
+    """
     provider: str = "openai"
+    """Large Language Model (LLM) provider. Currently supported values: openai"""
+
     model: str = "gpt-3.5-turbo-instruct"
+    """Large Language Model (LLM) identification. Currently supported values: gpt-3.5-turbo-instruct"""
+
     api_key: str = ""
+    """API key for your LLM. Can also be set through environment variables, e.g. OPENAI_API_KEY."""
+    
     context: str = """
         You are a helpful AI assistant, skilled in classifying passages 
         of text into Positive or Negative sentiment.
     """
+    """Initial prompt context."""
+
     encoding: Any = None
+    """Placeholder for embeddings object."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,6 +59,7 @@ class SentimentClassifier(BaseModel):
     @pydantic.computed_field()
     @property
     def api(self) -> int:
+        """Instantiates and returns an OpenAI client object."""
         client = OpenAI(api_key=self.api_key)
         client.timeout = 2
 
@@ -64,7 +84,17 @@ class SentimentClassifier(BaseModel):
         top_p: float = 0.9,
         n: int = 1,
         max_tokens: int = 20,
-    ):
+    ) -> pd.DataFrame:
+        """
+        Runs sentiment classification on top of a Pandas Dataframe.
+        Parameters:
+        :param df: Pandas Dataframe. Must contain a 'text' column with the text to be classified.
+        :param temperature: Generation temperature. Higher values will result in less deterministic
+        :param output (recommended to use 0.0)
+        :param n: Number of generated outputs. Recommended: 1
+        :param max_tokens: maximum number of generated tokens. Defaults to 20.
+        :returns: Pandas DataFrame containing prediction results.
+        """
         results = []
         for _, row in df.iterrows():
             prompt = str(ZeroShotPrompt(review=row["text"]))
@@ -105,6 +135,16 @@ class SentimentClassifier(BaseModel):
         n: int = 1,
         max_tokens=100,
     ) -> ClassificationResponse:
+        """
+        Runs sentiment classification on top of list of strings.
+        Parameters:
+        :param text: List of strings to be classified.
+        :param temperature: Generation temperature. Higher values will result in less deterministic
+        output (recommended to use 0.0)
+        :param n: Number of generated outputs. Recommended: 1
+        :param max_tokens: maximum number of generated tokens. Defaults to 20.
+        :returns: ClassificationResponse object.
+        """
         logging.info(f"Input text: {text}")
         logging.info(f"Temperature: {temperature}")
         logging.info(f"top_p: {top_p}")
@@ -157,6 +197,18 @@ class SentimentClassifier(BaseModel):
         n: int = 1,
         max_tokens=100,
     ) -> ClassificationResponse:
+        """
+        Runs sentiment classification on top of list of strings using Few-Shot Examples.
+        Parameters:
+        :param reviews: List of strings to be classified.
+        :param examples: List of strings containing few-shot examples.
+        :param temperature: Generation temperature. Higher values will result in less deterministic outputs.
+        output (recommended to use 0.0)
+        :param top_p: Top probability value for output selection.
+        :param n: Number of generated outputs. Recommended: 1
+        :param max_tokens: maximum number of generated tokens. Defaults to 20.
+        :returns: ClassificationResponse object.
+        """
         logging.info(f"Input text: {reviews}")
         logging.info(f"Temperature: {temperature}")
         logging.info(f"top_p: {top_p}")
