@@ -3,16 +3,6 @@ API
 
 .. module:: bullet
 
-bullet.client
-----------------------
-        
-.. automodule:: client
-    :members:
-
-.. automodule:: client.entrypoint
-    :members:
-
-
 bullet.core
 -------------
 
