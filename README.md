@@ -11,7 +11,9 @@
 
 1. Install `bullet`: `pip install git+https://github.com/rafaelpierre/bullet`
 2. Configure your `OPENAI_API_KEY`
-3. You should be good to go:
+3. You should be good to go
+
+### Zero-Shot Classification
 
 ```python
 from bullet.core.sentiment import SentimentClassifier
@@ -21,6 +23,18 @@ df_train_sample = df_train.sample(n = 50)
 
 classifier = SentimentClassifier()
 result = classifier.predict_pandas(df_train_sample)
+```
+
+### Few-Shot Classification
+
+```python
+df_test_sample = dataset["test"].to_pandas().sample(100)
+reviews = df_test_sample.text.values
+
+results = classifier.predict_few_shot(
+    reviews = reviews,
+    examples = examples
+)
 ```
 
 Full working example on a Jupyter Notebook can be found in `notebooks/sandbox.ipynb`
