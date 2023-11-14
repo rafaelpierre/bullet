@@ -28,6 +28,19 @@ result = classifier.predict_pandas(df_train_sample)
 ### Few-Shot Classification
 
 ```python
+
+# Define Few Shot examples
+
+template = "Review: \"{review}\"\nLabel: \"{label}\""
+examples = [
+    template.format(
+        review = row["text"],
+        label = "POS" if row["label"] == 1 else "NEG"
+    )
+    for _, row
+    in df_train.sample(3).iterrows()
+]
+
 df_test_sample = dataset["test"].to_pandas().sample(100)
 reviews = df_test_sample.text.values
 
