@@ -1,6 +1,15 @@
 🚅 bullet: A Zero-Shot / Few-Shot Learning, LLM Based, text classification framework
 =====================================================================================
 
+-------------------------------------------------------------------------------------
+
+.. image:: https://github.com/rafaelpierre/bullet/blob/main/img/bullet.png.png?raw=true
+  :width: 400
+  :alt: Bullet Logo
+  :align: center
+
+-------------------------------------------------------------------------------------
+
 Motivation
 ----------
 
