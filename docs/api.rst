@@ -1,9 +1,9 @@
 API
 ===
 
-.. module:: src.bullet
+.. module:: bullet
 
-src.bullet.client
+bullet.client
 ----------------------
         
 .. automodule:: client
@@ -13,7 +13,7 @@ src.bullet.client
     :members:
 
 
-src.bullet.core
+bullet.core
 -------------
 
 .. automodule:: core
@@ -22,10 +22,7 @@ src.bullet.core
 .. automodule:: core.sentiment
     :members:
 
-.. automodule:: core.utils
-    :members:
-
-src.bullet.models
+bullet.models
 -------------
 
 .. automodule:: models
