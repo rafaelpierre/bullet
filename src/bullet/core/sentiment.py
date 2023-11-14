@@ -197,17 +197,16 @@ class SentimentClassifier(BaseModel):
         n: int = 1,
         max_tokens=100,
     ) -> ClassificationResponse:
-        """
-        Runs sentiment classification on top of list of strings using Few-Shot Examples.
-        Parameters:
-        :param reviews: List of strings to be classified.
-        :param examples: List of strings containing few-shot examples.
-        :param temperature: Generation temperature. Higher values will result in less deterministic outputs.
+        """Runs sentiment classification on top of list of strings using Few-Shot Examples.
+        
+        Params:
+        reviews(List[str]): List of strings to be classified.
+        examples(List[str]): List of strings containing few-shot examples.
+        temperature(float): Generation temperature. Higher values will result in less deterministic outputs.
         output (recommended to use 0.0)
-        :param top_p: Top probability value for output selection.
-        :param n: Number of generated outputs. Recommended: 1
-        :param max_tokens: maximum number of generated tokens. Defaults to 20.
-        :returns: ClassificationResponse object.
+        top_p(float): Top probability value for output selection.
+        n(int): Number of generated outputs. Recommended: 1
+        max_tokens(int): maximum number of generated tokens. Defaults to 20.
         """
         logging.info(f"Input text: {reviews}")
         logging.info(f"Temperature: {temperature}")
