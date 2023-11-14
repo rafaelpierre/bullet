@@ -70,5 +70,10 @@ pip install tox
 * Running unit tests:
 
 ```bash
+<<<<<<< HEAD
 tox .
 ```
+=======
+tox
+```
+>>>>>>> 741b5b9 (logo)
