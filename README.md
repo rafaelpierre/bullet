@@ -6,6 +6,8 @@
 
 <p align="center"><img src="https://github.com/rafaelpierre/bullet/blob/main/img/bullet.png.png?raw=true" /></p>
 
+<hr />
+
 ## Motivation
 
 * Besides the fact that LLMs have a huge power in **generative** use cases, there is a use case that is quite frequently overlooked by frameworks such as [LangChain](https://www.langchain.com/): **Text Classification**.
