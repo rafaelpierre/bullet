@@ -2,6 +2,8 @@
 
 ![version](https://img.shields.io/badge/version-0.0.1-red?style=for-the-badge) ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white) ![python](https://img.shields.io/badge/python-3.11-blue?style=for-the-badge) ![build](https://img.shields.io/badge/build-passing-green?style=for-the-badge) ![coverage](https://img.shields.io/badge/coverage-96%25-green?style=for-the-badge)
 
+<hr />
+
 <p align="center"><img src="https://github.com/rafaelpierre/bullet/blob/main/img/bullet.png.png?raw=true" /></p>
 
 ## Motivation
